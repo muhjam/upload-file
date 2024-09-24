@@ -37,7 +37,7 @@ const updateBiodata = async (id, body, files) => {
       const imageFileName = imageFile.filename;
       if (biodate.image) {
         const oldImageFileName = biodate.getDataValue('image'); // Pastikan hanya nama file yang diambil
-        oldImageFilePath = path.join(__dirname, '../../../public/images/users', oldImageFileName);
+        oldImageFilePath = path.join(__dirname, '../public/images/users', oldImageFileName);
         console.log(`Jalur file gambar lama: ${oldImageFilePath}`);
       }
       biodate.image = imageFileName;
@@ -47,7 +47,7 @@ const updateBiodata = async (id, body, files) => {
       const proofFileName = proofFile.filename;
       if (biodate.proof) {
         const oldProofFileName = biodate.getDataValue('proof'); // Pastikan hanya nama file yang diambil
-        oldProofFilePath = path.join(__dirname, '../../../public/images/proofs', oldProofFileName);
+        oldProofFilePath = path.join(__dirname, '../public/images/proofs', oldProofFileName);
         console.log(`Jalur file bukti lama: ${oldProofFilePath}`);
       }
       biodate.proof = proofFileName;
@@ -94,14 +94,14 @@ const updateBiodata = async (id, body, files) => {
       const proofFile = files['proof'] ? files['proof'][0] : null;
 
       if (imageFile && imageFile.filename) {
-        const imageFilePath = path.join(__dirname, '../../../public/images/users', imageFile.filename);
+        const imageFilePath = path.join(__dirname, '../public/images/users', imageFile.filename);
         if (fs.existsSync(imageFilePath)) {
           fs.unlinkSync(imageFilePath);
         }
       }
 
       if (proofFile && proofFile.filename) {
-        const proofFilePath = path.join(__dirname, '../../../public/images/proofs', proofFile.filename);
+        const proofFilePath = path.join(__dirname, '../public/images/proofs', proofFile.filename);
         if (fs.existsSync(proofFilePath)) {
           fs.unlinkSync(proofFilePath);
         }

@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 const directories = {
-  'image': path.join(__dirname, '../../../public/images/users'),
-  'proof': path.join(__dirname, '../../../public/images/proofs'),
+  'image': path.join(__dirname, '../public/images/users'),
+  'proof': path.join(__dirname, '../public/images/proofs'),
   'supportingDocuments': path.join(__dirname, '../../../documents/competitions'),
-  'banner': path.join(__dirname, '../../../public/images/banners'),
+  'banner': path.join(__dirname, '../public/images/banners'),
 };
 
 const download = async (fieldName, fileName) => {

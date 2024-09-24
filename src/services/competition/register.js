@@ -109,7 +109,7 @@ const RegisterCompetition = async (body, user, files) => {
         await transaction.rollback();
 
         if (bannerFile && bannerFile.filename) {
-            const bannerFilePath = path.join(__dirname, '../../../public/images/banners', bannerFile.filename);
+            const bannerFilePath = path.join(__dirname, '../public/images/banners', bannerFile.filename);
             if (fs.existsSync(bannerFilePath)) {
                 fs.unlinkSync(bannerFilePath);
             }

@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const directories = {
-  'image': path.join(__dirname, '../../../public/images/users'),
-  'banner': path.join(__dirname, '../../../public/images/banners'),
+  'image': path.join(__dirname, '../public/images/users'),
+  'banner': path.join(__dirname, '../public/images/banners'),
 };
 
 const preview = async (fieldName, fileName) => {

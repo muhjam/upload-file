@@ -11,15 +11,22 @@ const router = require('./routes/index');
 
 const { forgotPasswordJob } = require('./utils/cron');
 
+// Konfigurasi CORS
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:8081'], // Daftar domain yang diizinkan
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Metode HTTP yang diizinkan
+  credentials: true // Jika kamu ingin mengirim cookies atau kredensial lainnya
+};
+
 const app = express();
 
 const swaggerOption = {
   definition: {
     openapi: '3.1.0',
     info: {
-      title: 'API EDUPASS',
+      title: 'API IOM',
       version: '1.0.0',
-      description: 'Description of API EDUPASS',
+      description: 'Description of API IOM',
     },
     server: [
       {
@@ -38,13 +45,22 @@ app.use(
 );
 
 app.use(morgan('dev'));
-app.use(helmet());
-app.use(cors());
+// app.use(helmet());
+app.use(cors(corsOptions));
 app.use(express.json());
+
+const path = require('path');
+app.use('/public', express.static(path.join(__dirname, 'public')), (req, res, next) => {
+  console.log(`Serving static file: ${req.path}`);
+  next();
+});
+
+app.use(router);
+
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'SELAMAT DATANG DI API EDUPASS',
+    message: 'SELAMAT DATANG DI API IOM',
   });
 });
 

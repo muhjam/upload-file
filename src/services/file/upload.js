@@ -5,9 +5,9 @@ const upload = async (file) => {
     try {
         let uploadDir;
         if (file.fieldname === 'image') {
-            uploadDir = path.join(__dirname, '../../public/images/users');
+            uploadDir = path.join(__dirname, '../public/images/users');
         } else if (file.fieldname === 'proof') {
-            uploadDir = path.join(__dirname, '../../public/images/proofs');
+            uploadDir = path.join(__dirname, '../public/images/proofs');
         } else {
             throw new Error('Invalid fieldname');
         }

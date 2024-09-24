@@ -9,7 +9,7 @@ const AuthorizationCheck = require('../middlewares/auth');
 
 const router = Router();
 
-router.post('/register', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'proof', maxCount: 1 }]), RegisterUser);
+router.post('/register', upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'proof', maxCount: 1 }]), RegisterUser);
 router.post('/login', [], LoginUser);
 router.post('/logout', [ AuthorizationCheck ], LogoutUser);
 

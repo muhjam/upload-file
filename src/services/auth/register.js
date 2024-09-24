@@ -117,12 +117,12 @@ const Register = async (body, files) => {
       const proofFile = files['proof'] ? files['proof'][0] : null;
 
       if (imageFile && imageFile.filename) {
-        const imageFilePath = path.join(__dirname, '../../../public/images/users', imageFile.filename);
+        const imageFilePath = path.join(__dirname, '../public/images/users', imageFile.filename);
         fs.unlinkSync(imageFilePath);
       }
 
       if (proofFile && proofFile.filename) {
-        const proofFilePath = path.join(__dirname, '../../../public/images/proofs', proofFile.filename);
+        const proofFilePath = path.join(__dirname, '../public/images/proofs', proofFile.filename);
         fs.unlinkSync(proofFilePath);
       }
     }
