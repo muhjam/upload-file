@@ -1,4 +1,4 @@
-const { Merchandise, sequelize } = require('../../models');
+const { Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
@@ -20,10 +20,10 @@ const CreateMerchandise = async (body, files, path) => {
 
     // Handle image file
     const imageFile = files && files['image'] ? files['image'][0] : null;
-    const imageFileName = imageFile ? `${path}/public/images/merchandise/${imageFile?.filename}` : null;
+    const imageFileName = imageFile ? `${path}/public/images/merchandises/${imageFile?.filename}` : null;
 
     // Create the merchandise record within a transaction
-    const newMerchandise = await Merchandise.create(
+    const newMerchandise = await Merchandises.create(
       {
         name,
         image: imageFileName, // store the file name in the database or null if no image
@@ -44,7 +44,7 @@ const CreateMerchandise = async (body, files, path) => {
 
     // Clean up uploaded files if any errors occur
     if (files && imageFile) {
-      const imageFilePath = path.join(__dirname, '../../public/images/merchandise', imageFile.filename);
+      const imageFilePath = path.join(__dirname, '../../public/images/merchandises', imageFile.filename);
       if (fs.existsSync(imageFilePath)) {
         fs.unlinkSync(imageFilePath);
       }

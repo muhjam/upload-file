@@ -1,4 +1,4 @@
-const { Merchandise, sequelize } = require('../../models');
+const { Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const fs = require('fs');
 const path = require('path');
@@ -7,7 +7,7 @@ const DeleteMerchandise = async (id) => {
   const transaction = await sequelize.transaction(); // Start a transaction
   try {
     // Cari merchandise berdasarkan id
-    const merchandise = await Merchandise.findByPk(id, { transaction });
+    const merchandise = await Merchandises.findByPk(id, { transaction });
 
     // Jika merchandise tidak ditemukan, lemparkan error
     if (!merchandise) {
@@ -21,7 +21,7 @@ const DeleteMerchandise = async (id) => {
     const previousImagePath = merchandise.image; 
     console.log('Previous Image Path:', previousImagePath); // Log previous image path
     const previousImageFileName = path.basename(previousImagePath);
-    const previousImageFilePath = path.join(__dirname, '../../public/images/merchandise', previousImageFileName);
+    const previousImageFilePath = path.join(__dirname, '../../public/images/merchandises', previousImageFileName);
     
     // Check if the file exists and delete it
     if (fs.existsSync(previousImageFilePath)) {

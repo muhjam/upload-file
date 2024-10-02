@@ -2,7 +2,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Transaction extends Model {
+  class Transactions extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Define association with Merchandise
-      this.belongsTo(models.Merchandise, {
+      this.belongsTo(models.Merchandises, {
         foreignKey: 'merchandiseId',
-        as: 'merchandise'
+        as: 'merchandises'
       });
     }
   }
   
-  Transaction.init({
+  Transactions.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     code: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     username: {
       type: DataTypes.STRING,
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Merchandise', // Make sure the table name matches your actual Merchandise model
+        model: 'Merchandises', // Make sure the table name matches your actual Merchandise model
         key: 'id',
       }
     },
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM('waiting', 'on progress', 'on delivery', 'arrived', 'done'),
+      type: DataTypes.ENUM('waiting', 'on process', 'on delivery', 'arrived', 'done', 'canceled', 'denied'),
       defaultValue: 'waiting',
       allowNull: false
     },
@@ -66,9 +66,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Transaction',
-    tableName: 'Transactions',
+    modelName: 'Transactions',
+    tableName: 'Transactions', 
   });
 
-  return Transaction;
+  return Transactions;
 };

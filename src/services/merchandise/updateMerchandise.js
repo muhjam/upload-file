@@ -1,4 +1,4 @@
-const { Merchandise, sequelize } = require('../../models');
+const { Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
@@ -7,10 +7,10 @@ const path = require('path');
 const UpdateMerchandise = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
   let imageFile = files && files['image'] ? files['image'][0] : null;
-  const imageFileName = imageFile ? `${basePath}/public/images/merchandise/${imageFile.filename}` : null;
+  const imageFileName = imageFile ? `${basePath}/public/images/merchandises/${imageFile.filename}` : null;
 
   try {
-    const merchandise = await Merchandise.findByPk(id, { transaction });
+    const merchandise = await Merchandises.findByPk(id, { transaction });
 
     if (!merchandise) {
       throw new BaseError({
@@ -33,7 +33,7 @@ const UpdateMerchandise = async (id, body, files, basePath) => {
       const previousImagePath = merchandise.image; 
       console.log('Previous Image Path:', previousImagePath); // Log previous image path
       const previousImageFileName = path.basename(previousImagePath);
-      const previousImageFilePath = path.join(__dirname, '../../public/images/merchandise', previousImageFileName);
+      const previousImageFilePath = path.join(__dirname, '../../public/images/merchandises', previousImageFileName);
       
       // Check if the file exists
       if (fs.existsSync(previousImageFilePath)) {
@@ -46,7 +46,7 @@ const UpdateMerchandise = async (id, body, files, basePath) => {
     }
 
     // Update merchandise with new data
-    const updatedMerchandise = await Merchandise.update(
+    const updatedMerchandise = await Merchandises.update(
       {
         name: name || merchandise.name,
         image: imageFileName || merchandise.image,
@@ -67,7 +67,7 @@ const UpdateMerchandise = async (id, body, files, basePath) => {
     await transaction.rollback();
 
     if (files && imageFile) {
-      const imageFilePath = path.join(__dirname, '../../public/images/merchandise', imageFile.filename);
+      const imageFilePath = path.join(__dirname, '../../public/images/merchandises', imageFile.filename);
       if (fs.existsSync(imageFilePath)) {
         fs.unlinkSync(imageFilePath);
       }

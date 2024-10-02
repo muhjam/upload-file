@@ -1,46 +1,73 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const CreateMerchandise = require('../services/merchandise/createMerchandise');
-const GetMerchandise = require('../services/merchandise/getMerchandise');
-const UpdateMerchandise = require('../services/merchandise/updateMerchandise');
-const DeleteMerchandise = require('../services/merchandise/deleteMerchandise');
+const CreateTransaction = require('../services/transaction/createTransaction');
+const GetTransaction = require('../services/transaction/getTransaction');
+const UpdateTransaction = require('../services/transaction/updateTransaction'); // Fixed the function name
+const DeleteTransaction = require('../services/transaction/deleteTransaction'); // Fixed the function name
 
-
-const GetMerchandiseById = async (req, res) => {
+const GetTransactionById = async (req, res) => {
   try {
     const { id } = req.params; // Mendapatkan id dari parameter URL
-    const merchandise = await GetMerchandise(id); // Mengambil detail merchandise berdasarkan ID
+    const transaction = await GetTransaction({ id: id }); // Mengambil detail transaction berdasarkan ID
 
-    // Jika merchandise tidak ditemukan, kembalikan respon 404
-    if (!merchandise) {
+    // Jika transaction tidak ditemukan, kembalikan respon 404
+    if (!transaction) {
       return res.status(StatusCodes.NOT_FOUND).json(new BaseResponse({
         status: StatusCodes.NOT_FOUND,
-        message: 'Merchandise tidak ditemukan',
+        message: 'Transaction tidak ditemukan',
       }));
     }
 
-    // Kembalikan data merchandise jika ditemukan
     res.status(StatusCodes.OK).json(new BaseResponse({
       status: StatusCodes.OK,
-      message: 'Merchandise ditemukan',
-      data: merchandise,
+      message: 'Transaction ditemukan',
+      data: transaction,
     }));
   } catch (error) {
     const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
     res.status(status).json(new BaseResponse({
       status,
-      message: error.message || 'Terjadi kesalahan saat mengambil merchandise',
+      message: error.message || 'Terjadi kesalahan saat mengambil transaction',
     }));
   }
 };
 
-// Get all merchandise
-const GetAllMerchandise = async (req, res) => {
+const GetTransactionByCode = async (req, res) => {
+  try { // Mendapatkan code dari parameter URL
+    const transaction = await GetTransaction({ code: code }); // Mengambil detail transaction berdasarkan code
+
+    // Jika transaction tidak ditemukan, kembalikan respon 404
+    if (!transaction) {
+      return res.status(StatusCodes.NOT_FOUND).json(new BaseResponse({
+        status: StatusCodes.NOT_FOUND,
+        message: 'Transaction tidak ditemukan',
+      }));
+    }
+
+    // Kembalikan data transaction jika ditemukan
+    res.status(StatusCodes.OK).json(new BaseResponse({
+      status: StatusCodes.OK,
+      message: 'Transaction ditemukan',
+      data: transaction,
+    }));
+  } catch (error) {
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message || 'Terjadi kesalahan saat mengambil transaction',
+    }));
+  }
+};
+
+const GetAllTransaction = async (req, res) => {
   try {
     const { search } = req.query;
-    const merchandise = await GetMerchandise(null, search);
-    res.status(StatusCodes.OK).json(new DataTable(merchandise.data, merchandise.total));
+    const code = req.query.q;
+
+    const transactions = await GetTransaction({code:code}, search); // Adjusted function call
+    console.log('kuntul', transactions)
+    res.status(StatusCodes.OK).json(new DataTable(transactions.data, transactions.total));
   } catch (error) {
     const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
     res.status(status).json(new BaseResponse({
@@ -50,39 +77,39 @@ const GetAllMerchandise = async (req, res) => {
   }
 };
 
-// Create new merchandise
-const CreateNewMerchandise = async (req, res) => {
+// Create new transaction
+const CreateNewTransaction = async (req, res) => {
   try {
-    const {body, files} = req; // Data yang dikirim dari client (request body)
+    const { body, files } = req; // Data yang dikirim dari client (request body)
     const baseUrl = `${req.protocol}://${req.get('host')}`; 
-    const newMerchandise = await CreateMerchandise(body, files, baseUrl);
+    const newTransaction = await CreateTransaction(body, files, baseUrl);
 
     res.status(StatusCodes.CREATED).json(new BaseResponse({
       status: StatusCodes.CREATED,
-      message: 'Merchandise created successfully',
-      data: newMerchandise,
+      message: 'Transaction created successfully',
+      data: newTransaction,
     }));
   } catch (error) {
     const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
     res.status(status).json(new BaseResponse({
       status,
-      message: error.message || 'Failed to create merchandise',
+      message: error.message || 'Failed to create transaction',
     }));
   }
 };
 
-// Update merchandise by ID
-const UpdateMerchandiseById = async (req, res) => {
+// Update transaction by ID
+const UpdateTransactionById = async (req, res) => {
   try {
     const { id } = req.params;
     const { body, files } = req;
     const baseUrl = `${req.protocol}://${req.get('host')}`; 
-    const updatedMerchandise = await UpdateMerchandise(id, body, files, baseUrl);
+    const updatedTransaction = await UpdateTransaction(id, body, files, baseUrl);
 
     res.status(StatusCodes.OK).json(new BaseResponse({
       status: StatusCodes.OK,
-      message: 'Merchandise berhasil diperbarui',
-      data: updatedMerchandise,
+      message: 'Transaction berhasil diperbarui',
+      data: updatedTransaction,
     }));
   } catch (error) {
     const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
@@ -93,11 +120,11 @@ const UpdateMerchandiseById = async (req, res) => {
   }
 };
 
-// Delete merchandise by ID
-const DeleteMerchandiseById = async (req, res) => {
+// Delete transaction by ID
+const DeleteTransactionById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await DeleteMerchandise(id);
+    const result = await DeleteTransaction(id);
     res.status(StatusCodes.OK).json(new BaseResponse({
       status: StatusCodes.OK,
       message: result.message,
@@ -112,9 +139,10 @@ const DeleteMerchandiseById = async (req, res) => {
 };
 
 module.exports = {
-  GetMerchandiseById,
-  GetAllMerchandise,
-  CreateNewMerchandise,
-  UpdateMerchandiseById,
-  DeleteMerchandiseById,
+  GetTransactionById,
+  GetTransactionByCode,
+  GetAllTransaction,
+  CreateNewTransaction,
+  UpdateTransactionById,
+  DeleteTransactionById,
 };

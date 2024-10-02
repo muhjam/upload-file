@@ -4,6 +4,7 @@ const router = express.Router();
 const AuthRouter = require('./auth');
 const UserRouter = require('./user');
 const MerchandiseRouter = require('./merchandise');
+const TransactionRouter = require('./transaction');
 const fileRouter = require('./file');
 const CompetitionRouter = require('./competition');
 
@@ -16,6 +17,7 @@ router.get('/', (req, res) => {
 router.use('/auth', AuthRouter);
 router.use('/user', UserRouter);
 router.use('/merchandise', MerchandiseRouter);
+router.use('/transaction', TransactionRouter);
 router.use('/file', fileRouter);
 router.use('/competition', CompetitionRouter);
 

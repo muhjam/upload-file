@@ -1,4 +1,4 @@
-const { Merchandise } = require('../../models');
+const { Merchandises } = require('../../models');
 const { Op } = require('sequelize');
 
 // Tambahkan parameter id untuk pengecekan spesifik merchandise
@@ -6,7 +6,7 @@ const GetMerchandise = async (id = null, query = {}, search = '') => {
   // Jika id disediakan, kembalikan merchandise berdasarkan id
   if (id) {
     try {
-      const merchandise = await Merchandise.findByPk(id); // Cari berdasarkan primary key (id)
+      const merchandise = await Merchandises.findByPk(id); // Cari berdasarkan primary key (id)
       if (!merchandise) {
         throw new Error(`Merchandise dengan id ${id} tidak ditemukan`);
       }
@@ -34,7 +34,7 @@ const GetMerchandise = async (id = null, query = {}, search = '') => {
   }
 
   try {
-    const { rows, count } = await Merchandise.findAndCountAll(options);
+    const { rows, count } = await Merchandises.findAndCountAll(options);
 
     return {
       data: rows,
