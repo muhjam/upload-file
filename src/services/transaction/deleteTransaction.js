@@ -20,7 +20,7 @@ const DeleteTransaction = async (id) => {
     // Get the previous payment image path
     const previousImagePath = transactionRecord.payment; 
     console.log('Previous Payment Image Path:', previousImagePath); // Log previous image path
-    const previousImageFileNam e = path.basename(previousImagePath);
+    const previousImageFileName = path.basename(previousImagePath);
     const previousImageFilePath = path.join(__dirname, '../../public/images/transactions', previousImageFileName);
     
     // Check if the file exists and delete it
