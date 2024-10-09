@@ -31,11 +31,11 @@ module.exports = {
     }
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    username: "root",
+    password: "OtNoTg6czmP2GTRaeJGI5A7cYLRFLV9TtAgbS4R2ufEhK8yWefqH1KtsXvT1cpPA",
+    database: "iom",
+    host: "195.110.58.17",
+    port: "9000",
     dialect: 'mysql',
     pool: {
       max: 5,
