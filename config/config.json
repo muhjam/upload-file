@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "OtNoTg6czmP2GTRaeJGI5A7cYLRFLV9TtAgbS4R2ufEhK8yWefqH1KtsXvT1cpPA",
+    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "OtNoTg6czmP2GTRaeJGI5A7cYLRFLV9TtAgbS4R2ufEhK8yWefqH1KtsXvT1cpPA",
+    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "OtNoTg6czmP2GTRaeJGI5A7cYLRFLV9TtAgbS4R2ufEhK8yWefqH1KtsXvT1cpPA",
+    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
     "dialect": "mysql"
