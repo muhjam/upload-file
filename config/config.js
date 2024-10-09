@@ -15,9 +15,9 @@ module.exports = {
   },
   "production": {
     "username": "root",
-    "password": "123123123",
+    "password": "OtNoTg6czmP2GTRaeJGI5A7cYLRFLV9TtAgbS4R2ufEhK8yWefqH1KtsXvT1cpPA",
     "database": "iom",
-    "host": "127.0.0.1",
+    "host": "195.110.58.17",
     "dialect": "mysql"
   }
 };

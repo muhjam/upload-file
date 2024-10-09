@@ -1,174 +1,148 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const FindUsers = require('../services/user/findUser');
-const ChangePassword = require('../services/user/change-password');
-const forgotPass = require('../services/user/forgot-password');
-const resetPassword = require('../services/user/reset-password');
-const updateBiodata = require('../services/user/update-biodate');
-const DeleteUser = require('../services/user/delete-user');
-const ChangeRole = require('../services/user/change-role');
-const verifyUser = require('../services/user/verifyUser');
+const CreateUser = require('../services/user/createUser');
+const GetUser = require('../services/user/getUser');
+const UpdateUser = require('../services/user/updateUser'); // Fixed the function name
+const DeleteUser = require('../services/user/deleteUser'); // Fixed the function name
 
-const GetAllUsers = async (req, res) => {
+const GetUserById = async (req, res) => {
   try {
-    const body = { ...req.body, search: req.query.search || req.body.search };
-    const users = await FindUsers(body, req.query);
-    res.status(StatusCodes.OK).json(new DataTable(users.data, users.total));
-  } catch (error) {
-    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    res
-      .status(status)
-      .json(
-        new BaseResponse({
-          status: status,
-          message: error.message
-        })
-      );
-  }
-}
+    const { id } = req.params; // Mendapatkan id dari parameter URL
+    const user = await GetUser({ id: id }); // Mengambil detail transaction berdasarkan ID
 
-const ChangePasswordUser = async (req, res) => {
-  try {
-    await ChangePassword(req.body, res.locals.user);
-    res.status(StatusCodes.OK).json(new BaseResponse({
-      status: StatusCodes.OK,
-      message: 'Password berhasil diubah'
-    }));
-  } catch (error) {
-    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    res.status(status).json(new BaseResponse({
-      status: status,
-      message: error.message
-    }));
-  }
-}
-
-const ForgotPassword = async (req, res) => {
-  try {
-    await forgotPass(req.body);
-    res.status(StatusCodes.OK).json(new BaseResponse({
-      status: StatusCodes.OK,
-      message: 'Email berhasil dikirim'
-    }));
-  } catch (error) {
-    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    res.status(status).json(new BaseResponse({
-      status: status,
-      message: error.message
-    }));
-  }
-}
-
-const ResetPassword = async (req, res) => {
-  try {
-    const { token } = req.params;
-    if (!token) {
-      throw new Error('Token is missing');
+    // Jika transaction tidak ditemukan, kembalikan respon 404
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json(new BaseResponse({
+        status: StatusCodes.NOT_FOUND,
+        message: 'User tidak ditemukan',
+      }));
     }
-    const result = await resetPassword(token);
+
     res.status(StatusCodes.OK).json(new BaseResponse({
       status: StatusCodes.OK,
-      message: 'Token Validation Success',
-      data: result
+      message: 'User ditemukan',
+      data: user,
     }));
   } catch (error) {
     const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
     res.status(status).json(new BaseResponse({
-      status: status,
-      message: error.message
-    }));
-  }
-}
-
-const UpdateBiodateUser = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const updatedBiodata = await updateBiodata(id, req.body, req.files);
-
-    res.status(StatusCodes.OK).json(new BaseResponse({
-      status: StatusCodes.OK,
-      message: 'Biodata berhasil diubah',
-      data: updatedBiodata
-    }));
-  } catch (error) {
-    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    res.status(status).json(new BaseResponse({
-      status: status,
-      message: error.message
+      status,
+      message: error.message || 'Terjadi kesalahan saat mengambil User',
     }));
   }
 };
 
-const DeleteUsers = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    
-    const result = await DeleteUser(userId);
+const GetUserByCode = async (req, res) => {
+  try { // Mendapatkan code dari parameter URL
+    const user = await GetUser({ code: code }); // Mengambil detail User berdasarkan code
 
-    res.status(StatusCodes.OK).json(
-      new BaseResponse({
-        status: StatusCodes.OK,
-        message: result.message,
-      })
-    );
-  } catch (error) {
-    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    res.status(status).json(new BaseResponse({
-      status: status,
-      message: error.message
-    }));
-  }
-};
-
-const ChangeRoleUser = async (req, res) => {
-  try {
-      const user = res.locals.user;
-
-      if (!user) {
-          throw new BaseError({
-              status: StatusCodes.UNAUTHORIZED,
-              message: 'User is not authenticated',
-          });
-      }
-
-      const updatedUser = await ChangeRole(user.id, req.body);
-      res.status(StatusCodes.OK).json(new BaseResponse({
-          status: StatusCodes.OK,
-          message: 'Role berhasil diubah',
-          data: updatedUser
+    // Jika User tidak ditemukan, kembalikan respon 404
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json(new BaseResponse({
+        status: StatusCodes.NOT_FOUND,
+        message: 'User tidak ditemukan',
       }));
+    }
+
+    // Kembalikan data User jika ditemukan
+    res.status(StatusCodes.OK).json(new BaseResponse({
+      status: StatusCodes.OK,
+      message: 'User ditemukan',
+      data: user,
+    }));
   } catch (error) {
-      res.status(error.status || StatusCodes.INTERNAL_SERVER_ERROR).json(new BaseResponse({
-          status: error.status || StatusCodes.INTERNAL_SERVER_ERROR,
-          message: error.message
-      }));
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message || 'Terjadi kesalahan saat mengambil User',
+    }));
   }
 };
 
-const VerifyUser = async (req, res) => {
+const GetAllUser = async (req, res) => {
   try {
-    const verify = await verifyUser(req.body);
-    res.status(StatusCodes.OK).json(new BaseResponse({
-      status: StatusCodes.OK,
-      message: 'User berhasil diverifikasi',
-      data: verify
+    const { search } = req.query;
+    const code = req.query.q;
+
+    const user = await GetUser({code:code}, search); // Adjusted function call
+
+    res.status(StatusCodes.OK).json(new DataTable(user.data, user.total));
+  } catch (error) {
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message,
+    }));
+  }
+};
+
+// Create new User
+const CreateNewUser = async (req, res) => {
+  try {
+    const { body, files } = req; // Data yang dikirim dari client (request body)
+    const baseUrl = `${req.protocol}://${req.get('host')}`; 
+    const newUser = await CreateUser(body, files, baseUrl);
+
+    res.status(StatusCodes.CREATED).json(new BaseResponse({
+      status: StatusCodes.CREATED,
+      message: 'User created successfully',
+      data: newUser,
     }));
   } catch (error) {
-    res.status(error.status || StatusCodes.INTERNAL_SERVER_ERROR).json(new BaseResponse({
-      status: error.status || StatusCodes.INTERNAL_SERVER_ERROR,
-      message: error.message
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message || 'Failed to create User',
+    }));
+  }
+};
+
+// Update transaction by ID
+const UpdateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body, files } = req;
+    const baseUrl = `${req.protocol}://${req.get('host')}`; 
+    const updatedUser = await UpdateUser(id, body, files, baseUrl);
+
+    res.status(StatusCodes.OK).json(new BaseResponse({
+      status: StatusCodes.OK,
+      message: 'Transaction berhasil diperbarui',
+      data: updatedUser,
+    }));
+  } catch (error) {
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message,
+    }));
+  }
+};
+
+// Delete transaction by ID
+const DeleteUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await DeleteUser(id);
+    res.status(StatusCodes.OK).json(new BaseResponse({
+      status: StatusCodes.OK,
+      message: result.message,
+    }));
+  } catch (error) {
+    const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+    res.status(status).json(new BaseResponse({
+      status,
+      message: error.message,
     }));
   }
 };
 
 module.exports = {
-  GetAllUsers,
-  ChangePasswordUser,
-  ForgotPassword,
-  ResetPassword,
-  UpdateBiodateUser,
-  DeleteUsers,
-  ChangeRoleUser,
-  VerifyUser
-}
+  GetUserById,
+  GetUserByCode,
+  GetAllUser,
+  CreateNewUser,
+  UpdateUserById,
+  DeleteUserById,
+};

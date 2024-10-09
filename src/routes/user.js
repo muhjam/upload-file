@@ -1,29 +1,20 @@
 const { Router } = require('express');
 const {
-  GetAllUsers,
-  ChangePasswordUser,
-  ForgotPassword,
-  ResetPassword,
-  UpdateBiodateUser,
-  DeleteUsers,
-  ChangeRoleUser,
-  VerifyUser
-} = require('../controllers/user');
-const ValidateAccess = require('../middlewares/access');
-const AuthorizationCheck = require('../middlewares/auth');
-const upload  = require('../middlewares/multer');
+  GetUserById,
+  GetAllUser,
+  CreateNewUser,
+  UpdateUserById,
+  DeleteUserById,
+} = require('../controllers/user'); // Updated to 'transaction'
+const upload = require('../middlewares/multer');
 
 const router = Router();
 
-router.get('/getUser', [], GetAllUsers);
-router.get('/reset-password/:token', [], ResetPassword);
-
-router.post('/change-password', [ AuthorizationCheck ], ChangePasswordUser);
-router.post('/forgot-password', [], ForgotPassword);
-router.post('/change-role', [ AuthorizationCheck ], ChangeRoleUser);
-router.post('/verify-user', [ AuthorizationCheck, ValidateAccess ], VerifyUser);
-
-router.put('/update-biodate', [ AuthorizationCheck, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'proof', maxCount: 1 }])], UpdateBiodateUser);
-router.delete('/delete-user/:userId', [ AuthorizationCheck, ValidateAccess ], DeleteUsers);
+router.get('/list', [], GetAllUser); // Updated to 'GetAllUser'
+router.get('/:id', [], GetUserById); // Updated to 'GetUserById'
+router.get('', [], GetAllUser); // Added route for GetTransactionByCode
+router.post('/create', upload.fields([{ name: 'photo', maxCount: 1 }]), CreateNewUser); // Updated to 'CreateNewUser'
+router.put('/update/:id', upload.fields([{ name: 'photo', maxCount: 1 }]), UpdateUserById); // Updated to 'UpdateUserById'
+router.delete('/delete/:id', [], DeleteUserById); // Updated to 'DeleteUserById'
 
 module.exports = router;

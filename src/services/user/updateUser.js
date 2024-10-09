@@ -25,8 +25,18 @@ const UpdateTransactionStatus = async (id, body) => {
       });
     }
 
-    // Check if the current status is "waiting"
-    if (transactionRecord.status === 'waiting' && !['waiting', 'canceled', 'denied'].includes(status)) {
+    // Update only the status of the transaction
+    await Transactions.update(
+      {
+        status: status || transactionRecord.status,
+      },
+      {
+        where: { id },
+        transaction,
+      }
+    );
+
+    if (!['waiting', 'canceled', 'denied'].includes(status)) {
       // Find the merchandise associated with this transaction
       const merchandise = await Merchandises.findByPk(merchandiseId);
 
@@ -56,17 +66,6 @@ const UpdateTransactionStatus = async (id, body) => {
         }
       );
     }
-
-    // Update only the status of the transaction
-    await Transactions.update(
-      {
-        status: status || transactionRecord.status,
-      },
-      {
-        where: { id },
-        transaction,
-      }
-    );
 
     await transaction.commit();
 
