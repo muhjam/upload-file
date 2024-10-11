@@ -1,3 +1,5 @@
+console.log('Connecting to MySQL on port:', process.env.DB_PORT || 9000);
+
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || 'your_db_username',
