@@ -25,15 +25,3 @@ module.exports = {
   },
 };
 
-require('dotenv').config();
-
-module.exports = {
-  development: {
-    use_env_variable: 'DATABASE_URL',
-    dialect: 'mysql',
-  },
-};
-
-
-// Tambahkan di awal file config.js
-console.log('Connecting to MySQL on port:', process.env.DB_PORT || 3306);
