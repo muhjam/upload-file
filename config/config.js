@@ -1,26 +1,26 @@
 module.exports = {
-  "development": {
-    "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
-    "host": "195.110.58.17",
-    "port": 9000,
-    "dialect": "mysql"
+  development: {
+    username: process.env.DB_USERNAME || 'your_db_username',
+    password: process.env.DB_PASSWORD || 'your_db_password',
+    database: process.env.DB_NAME || 'your_db_name',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 9000,
+    dialect: 'mysql',
   },
-  "test": {
-    "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
-    "host": "195.110.58.17",
-    "port": 9000,
-    "dialect": "mysql"
+  test: {
+    username: process.env.DB_USERNAME || 'your_db_username',
+    password: process.env.DB_PASSWORD || 'your_db_password',
+    database: process.env.DB_NAME || 'your_db_name',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 9000,
+    dialect: 'mysql',
   },
-  "production": {
-    "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
-    "host": "195.110.58.17",
-    "port": 9000,
-    "dialect": "mysql"
-  }
+  production: {
+    username: process.env.DB_USERNAME || 'your_db_username',
+    password: process.env.DB_PASSWORD || 'your_db_password',
+    database: process.env.DB_NAME || 'your_db_name',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 9000,
+    dialect: 'mysql',
+  },
 };
