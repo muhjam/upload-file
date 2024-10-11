@@ -4,7 +4,7 @@ module.exports = {
     "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
-    "port": "9000",
+    "port": 9000,
     "dialect": "mysql"
   },
   "test": {
@@ -12,7 +12,7 @@ module.exports = {
     "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
-    "port": "9000",
+    "port": 9000,
     "dialect": "mysql"
   },
   "production": {
@@ -20,7 +20,7 @@ module.exports = {
     "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
     "database": "iom",
     "host": "195.110.58.17",
-    "port": "9000",
+    "port": 9000,
     "dialect": "mysql"
   }
 };
