@@ -3,45 +3,28 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU',
+    database: process.env.DB_NAME || 'iom',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    },
   },
   test: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU',
+    database: process.env.DB_NAME || 'iom',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU',
+    database: process.env.DB_NAME || 'iom',
+    host: process.env.DB_HOST || '195.110.58.17',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
   },
 };
+
