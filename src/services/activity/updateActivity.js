@@ -6,7 +6,7 @@ const path = require('path');
 
 const UpdateActivity = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
-  let imageFile = files && files['image'] ? files['image'][0] : null;
+  let imageFile = files && files['imageActivity'] ? files['imageActivity'][0] : null;
   const imageFileName = imageFile ? `${basePath}/public/images/activities/${imageFile.filename}` : null;
 
   try {
