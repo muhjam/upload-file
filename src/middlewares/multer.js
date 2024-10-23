@@ -5,13 +5,14 @@ const multer = require('multer');
 // Direktori untuk menyimpan file
 const userImageDir = path.join(__dirname, '../public/images/users');
 const merchandiseDir = path.join(__dirname, '../public/images/merchandises');
+const activitiesDir = path.join(__dirname, '../public/images/activities');
 const transactionDir = path.join(__dirname, '../public/images/transactions');
 const proofDir = path.join(__dirname, '../public/images/proofs');
 const bannerDir = path.join(__dirname, '../public/images/banners');
 const supportingDocumentDir = path.join(__dirname, '../../documents/competitions');
 
 // Membuat direktori jika belum ada
-[userImageDir, proofDir, supportingDocumentDir, bannerDir, merchandiseDir, transactionDir].forEach(dir => {
+[userImageDir, proofDir, supportingDocumentDir, bannerDir, merchandiseDir, transactionDir, activitiesDir].forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
@@ -24,6 +25,8 @@ const storage = multer.diskStorage({
             cb(null, userImageDir);
         }else if (file.fieldname === 'image') {
             cb(null, merchandiseDir);
+        }else if (file.fieldname === 'imageActivity') {
+            cb(null, activitiesDir);
         }else if (file.fieldname === 'payment') {
             cb(null, transactionDir);
         }else if (file.fieldname === 'proof') {

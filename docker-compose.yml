@@ -25,7 +25,7 @@ services:
     volumes:
       - db:/var/lib/mysql
     ports:
-      - "9000:9000"
+      - "3306:3306"
 
   nginx:
     image: nginx:alpine
