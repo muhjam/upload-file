@@ -21,7 +21,7 @@ const UpdateActivity = async (id, body, files, basePath) => {
 
     const { title, date } = body;
 
-    if (!title && !date && !imageFileName) {
+    if (!title && !date && !imageFileName && !body.description && !body.url) {
       throw new BaseError({
         status: StatusCodes.BAD_REQUEST,
         message: 'At least one of title, date, or image must be provided for update',
