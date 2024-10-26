@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', AuthRouter);
-router.use('/user', UserRouter);
-router.use('/merchandise', MerchandiseRouter);
-router.use('/activity', ActivityRouter);
-router.use('/transaction', TransactionRouter);
+router.use('/users', UserRouter);
+router.use('/merchandises', MerchandiseRouter);
+router.use('/activities', ActivityRouter);
+router.use('/transactions', TransactionRouter);
 router.use('/file', fileRouter);
 router.use('/competition', CompetitionRouter);
 

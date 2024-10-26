@@ -10,10 +10,10 @@ const upload  = require('../middlewares/multer');
 
 const router = Router();
 
-router.get('/list', [], GetAllMerchandise);
+router.get('', [], GetAllMerchandise);
 router.get('/:id', [], GetMerchandiseById);
-router.post('/create', upload.fields([{ name: 'image', maxCount: 1 }]), CreateNewMerchandise);
-router.put('/update/:id', upload.fields([{ name: 'image', maxCount: 1 }]), UpdateMerchandiseById);
-router.delete('/delete/:id', [], DeleteMerchandiseById);
+router.post('', upload.fields([{ name: 'image', maxCount: 1 }]), CreateNewMerchandise);
+router.put('/:id', upload.fields([{ name: 'image', maxCount: 1 }]), UpdateMerchandiseById);
+router.delete('/:id', [], DeleteMerchandiseById);
 
 module.exports = router;
