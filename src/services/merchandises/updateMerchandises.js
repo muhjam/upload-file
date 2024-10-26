@@ -4,7 +4,7 @@ const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
 const path = require('path');
 
-const UpdateMerchandise = async (id, body, files, basePath) => {
+const UpdateMerchandises = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
   let imageFile = files && files['image'] ? files['image'][0] : null;
   const imageFileName = imageFile ? `${basePath}/public/images/merchandises/${imageFile.filename}` : null;
@@ -80,4 +80,4 @@ const UpdateMerchandise = async (id, body, files, basePath) => {
   }
 };
 
-module.exports = UpdateMerchandise;
+module.exports = UpdateMerchandises;

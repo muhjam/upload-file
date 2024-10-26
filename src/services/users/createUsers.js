@@ -4,7 +4,7 @@ const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
 const path = require('path'); // Ensure path is imported
 
-const CreateTransaction = async (body, files, uploadPath) => {
+const CreateUsers = async (body, files, uploadPath) => {
   // Start transaction
   const transaction = await sequelize.transaction();
   const imageFile = files && files['payment'] ? files['payment'][0] : null;
@@ -81,4 +81,4 @@ const CreateTransaction = async (body, files, uploadPath) => {
   }
 };
 
-module.exports = CreateTransaction;
+module.exports = CreateUsers;

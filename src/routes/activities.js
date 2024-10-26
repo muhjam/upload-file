@@ -5,7 +5,7 @@ const {
   CreateNewActivity,
   UpdateActivityById,
   DeleteActivityById,
-} = require('../controllers/activity');
+} = require('../controllers/activities');
 const upload  = require('../middlewares/multer');
 
 const router = Router();

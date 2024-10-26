@@ -2,10 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 const AuthRouter = require('./auth');
-const UserRouter = require('./user');
-const MerchandiseRouter = require('./merchandise');
-const ActivityRouter = require('./activity');
-const TransactionRouter = require('./transaction');
+const UserRouter = require('./users');
+const MemberRouter = require('./members');
+const MerchandiseRouter = require('./merchandises');
+const ActivityRouter = require('./activities');
+const TransactionRouter = require('./transactions');
 const fileRouter = require('./file');
 const CompetitionRouter = require('./competition');
 
@@ -17,6 +18,7 @@ router.get('/', (req, res) => {
 
 router.use('/auth', AuthRouter);
 router.use('/users', UserRouter);
+router.use('/members', MemberRouter);
 router.use('/merchandises', MerchandiseRouter);
 router.use('/activities', ActivityRouter);
 router.use('/transactions', TransactionRouter);

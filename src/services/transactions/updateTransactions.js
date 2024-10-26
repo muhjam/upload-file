@@ -2,7 +2,7 @@ const { Transactions, Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../../schemas/responses/BaseError');
 
-const UpdateTransactionStatus = async (id, body) => {
+const UpdateTransactions = async (id, body) => {
   const transaction = await sequelize.transaction();
 
   try {
@@ -84,4 +84,4 @@ const UpdateTransactionStatus = async (id, body) => {
   }
 };
 
-module.exports = UpdateTransactionStatus;
+module.exports = UpdateTransactions;

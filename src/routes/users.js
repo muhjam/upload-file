@@ -5,7 +5,7 @@ const {
   CreateNewUser,
   UpdateUserById,
   DeleteUserById,
-} = require('../controllers/user'); // Updated to 'transaction'
+} = require('../controllers/users'); // Updated to 'transaction'
 const upload = require('../middlewares/multer');
 
 const router = Router();

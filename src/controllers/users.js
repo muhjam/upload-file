@@ -1,10 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const CreateUser = require('../services/user/createUser');
-const GetUser = require('../services/user/getUser');
-const UpdateUser = require('../services/user/updateUser'); // Fixed the function name
-const DeleteUser = require('../services/user/deleteUser'); // Fixed the function name
+const CreateUser = require('../services/users/createUsers');
+const GetUser = require('../services/users/getUsers');
+const UpdateUser = require('../services/users/updateUsers'); // Fixed the function name
+const DeleteUser = require('../services/users/deleteUsers'); // Fixed the function name
 
 const GetUserById = async (req, res) => {
   try {

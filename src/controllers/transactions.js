@@ -1,10 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const CreateTransaction = require('../services/transaction/createTransaction');
-const GetTransaction = require('../services/transaction/getTransaction');
-const UpdateTransaction = require('../services/transaction/updateTransaction'); // Fixed the function name
-const DeleteTransaction = require('../services/transaction/deleteTransaction'); // Fixed the function name
+const CreateTransaction = require('../services/transactions/createTransactions');
+const GetTransaction = require('../services/transactions/getTransactions');
+const UpdateTransaction = require('../services/transactions/updateTransactions'); // Fixed the function name
+const DeleteTransaction = require('../services/transactions/deleteTransactions'); // Fixed the function name
 
 const GetTransactionById = async (req, res) => {
   try {

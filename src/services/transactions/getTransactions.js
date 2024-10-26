@@ -2,7 +2,7 @@ const { Transactions, Merchandises } = require('../../models');
 const { Op } = require('sequelize');
 
 // Add an id parameter for specific transaction checks
-const GetTransaction = async (key, query = {}, search = '') => {
+const GetTransactions = async (key, query = {}, search = '') => {
   // If id is provided, return the transaction by id
   if (key?.id) {
     try {
@@ -85,4 +85,4 @@ const GetTransaction = async (key, query = {}, search = '') => {
   }
 };
 
-module.exports = GetTransaction;
+module.exports = GetTransactions;

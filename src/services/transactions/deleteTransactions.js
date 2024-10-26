@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const fs = require('fs');
 const path = require('path');
 
-const DeleteTransaction = async (id) => {
+const DeleteTransactions = async (id) => {
   const transaction = await sequelize.transaction(); // Start a transaction
   try {
     // Find transaction by id
@@ -49,4 +49,4 @@ const DeleteTransaction = async (id) => {
   }
 };
 
-module.exports = DeleteTransaction;
+module.exports = DeleteTransactions;

@@ -1,10 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const CreateMerchandise = require('../services/merchandise/createMerchandise');
-const GetMerchandise = require('../services/merchandise/getMerchandise');
-const UpdateMerchandise = require('../services/merchandise/updateMerchandise');
-const DeleteMerchandise = require('../services/merchandise/deleteMerchandise');
+const CreateMerchandise = require('../services/merchandises/createMerchandises');
+const GetMerchandise = require('../services/merchandises/getMerchandises');
+const UpdateMerchandise = require('../services/merchandises/updateMerchandises');
+const DeleteMerchandise = require('../services/merchandises/deleteMerchandises');
 
 
 const GetMerchandiseById = async (req, res) => {

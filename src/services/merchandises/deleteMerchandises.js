@@ -1,27 +1,27 @@
-const { Activities, sequelize } = require('../../models');
+const { Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const fs = require('fs');
 const path = require('path');
 
-const DeleteActivity = async (id) => {
+const DeleteMerchandises = async (id) => {
   const transaction = await sequelize.transaction(); // Start a transaction
   try {
-    // Cari activity berdasarkan id
-    const activity = await Activities.findByPk(id, { transaction });
+    // Cari merchandise berdasarkan id
+    const merchandise = await Merchandises.findByPk(id, { transaction });
 
-    // Jika activity tidak ditemukan, lemparkan error
-    if (!activity) {
+    // Jika merchandise tidak ditemukan, lemparkan error
+    if (!merchandise) {
       throw {
         status: StatusCodes.NOT_FOUND,
-        message: 'Activity not found',
+        message: 'Merchandise not found',
       };
     }
 
     // Get the previous image path
-    const previousImagePath = activity.image; 
+    const previousImagePath = merchandise.image; 
     console.log('Previous Image Path:', previousImagePath); // Log previous image path
     const previousImageFileName = path.basename(previousImagePath);
-    const previousImageFilePath = path.join(__dirname, '../../public/images/activities', previousImageFileName);
+    const previousImageFilePath = path.join(__dirname, '../../public/images/merchandises', previousImageFileName);
     
     // Check if the file exists and delete it
     if (fs.existsSync(previousImageFilePath)) {
@@ -32,21 +32,21 @@ const DeleteActivity = async (id) => {
       console.log('File does not exist:', previousImageFilePath); // Log if file does not exist
     }
 
-    // Hapus activity
-    await activity.destroy({ transaction });
+    // Hapus merchandise
+    await merchandise.destroy({ transaction });
 
     // Commit the transaction
     await transaction.commit();
 
     return {
       status: StatusCodes.OK,
-      message: 'Activity deleted successfully',
+      message: 'Merchandise deleted successfully',
     };
   } catch (error) {
     // Rollback the transaction in case of error
     await transaction.rollback();
-    throw new Error(`Failed to delete activity: ${error.message || error}`);
+    throw new Error(`Failed to delete merchandise: ${error.message || error}`);
   }
 };
 
-module.exports = DeleteActivity;
+module.exports = DeleteMerchandises;

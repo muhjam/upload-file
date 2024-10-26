@@ -1,10 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseResponse = require('../schemas/responses/BaseResponse');
 const DataTable = require('../schemas/responses/DataTable');
-const CreateActivity = require('../services/activity/createActivity');
-const GetActivity = require('../services/activity/getActivity');
-const UpdateActivity = require('../services/activity/updateActivity');
-const DeleteActivity = require('../services/activity/deleteActivity');
+const CreateActivity = require('../services/activities/createActivities');
+const GetActivity = require('../services/activities/getActivities');
+const UpdateActivity = require('../services/activities/updateActivities');
+const DeleteActivity = require('../services/activities/deleteActivities');
 
 const GetActivityById = async (req, res) => {
   try {

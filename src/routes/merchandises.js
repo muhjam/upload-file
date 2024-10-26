@@ -5,7 +5,7 @@ const {
   CreateNewMerchandise,
   UpdateMerchandiseById,
   DeleteMerchandiseById,
-} = require('../controllers/merchandise');
+} = require('../controllers/merchandises');
 const upload  = require('../middlewares/multer');
 
 const router = Router();

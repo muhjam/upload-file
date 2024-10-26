@@ -6,7 +6,7 @@ const {
   CreateNewTransaction,
   UpdateTransactionById,
   DeleteTransactionById,
-} = require('../controllers/transaction'); // Updated to 'transaction'
+} = require('../controllers/transactions'); // Updated to 'transaction'
 const upload = require('../middlewares/multer');
 
 const router = Router();

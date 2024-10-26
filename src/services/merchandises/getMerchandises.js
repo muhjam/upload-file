@@ -2,7 +2,7 @@ const { Merchandises } = require('../../models');
 const { Op } = require('sequelize');
 
 // Tambahkan parameter id untuk pengecekan spesifik merchandise
-const GetMerchandise = async (id = null, query = {}, search = '') => {
+const GetMerchandises = async (id = null, query = {}, search = '') => {
   // Jika id disediakan, kembalikan merchandise berdasarkan id
   if (id) {
     try {
@@ -47,4 +47,4 @@ const GetMerchandise = async (id = null, query = {}, search = '') => {
   }
 };
 
-module.exports = GetMerchandise;
+module.exports = GetMerchandises;
