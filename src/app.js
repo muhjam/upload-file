@@ -9,12 +9,12 @@ const swaggerUi = require('swagger-ui-express');
 const router = require('./routes/index');
 // const expressListEndpoints = require('express-list-endpoints');
 
-const { forgotPasswordJob } = require('./utils/cron');
+// const { forgotPasswordJob } = require('./utils/cron');
 
 // Konfigurasi CORS
 const corsOptions = {
   origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:8081', 'http://ag40o08cgg4ksookcoc84wko.195.110.58.17.sslip.io', 'https://www.iom-itb.id', 'https://iom-admin.vercel.app'], // Daftar domain yang diizinkan
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Metode HTTP yang diizinkan
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Metode HTTP yang diizinkan
   credentials: true // Jika kamu ingin mengirim cookies atau kredensial lainnya
 };
 
@@ -64,7 +64,7 @@ app.get('/', (req, res) => {
   });
 });
 
-forgotPasswordJob.start();
+// forgotPasswordJob.start();
 
 app.use(router);
 
