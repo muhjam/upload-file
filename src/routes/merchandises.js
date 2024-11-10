@@ -10,7 +10,7 @@ const upload  = require('../middlewares/multer');
 
 const router = Router();
 
-router.get('', [], GetAllMerchandise);
+router.get('/test', [], GetAllMerchandise);
 router.get('/:id', [], GetMerchandiseById);
 router.post('', upload.fields([{ name: 'image', maxCount: 1 }]), CreateNewMerchandise);
 router.put('/:id', upload.fields([{ name: 'image', maxCount: 1 }]), UpdateMerchandiseById);
