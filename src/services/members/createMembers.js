@@ -12,10 +12,10 @@ const generateCodeFromChildNim = (childNim) => {
     .join(''); // Join all pairs back into a single string
 };
 
-const CreateMembers = async (body, files, basePath) => {
+const CreateMembers = async (body, files) => {
   const transaction = await sequelize.transaction();
   const pictureFile = files && files['picture'] ? files['picture'][0] : null;
-  const picturePath = pictureFile ? `${basePath}/public/images/members/${pictureFile.filename}` : null;
+
   try {
     // Validate required fields
     const { parentName, childNim, noWhatsapp, staff, foster } = body;
@@ -30,6 +30,9 @@ const CreateMembers = async (body, files, basePath) => {
     // Generate code by reversing every two characters in childNim
     const code = generateCodeFromChildNim(childNim);
 
+    // Read the image file as binary data if it exists
+    const pictureData = pictureFile ? fs.readFileSync(pictureFile.path) : null;
+
     // Create the member record within a transaction
     const newMember = await Members.create(
       {
@@ -37,7 +40,7 @@ const CreateMembers = async (body, files, basePath) => {
         parentName,
         childNim,
         noWhatsapp,
-        picture: picturePath, // Store the file name in the database or null if no image
+        picture: pictureData, // Store the binary image data in the database
         options: {
           staff: staff,
           foster: foster,
@@ -56,10 +59,7 @@ const CreateMembers = async (body, files, basePath) => {
 
     // Clean up uploaded files if any errors occur
     if (files && pictureFile) {
-      const pictureFullPath = path.join(__dirname, '../../public/images/members', pictureFile.filename);
-      if (fs.existsSync(pictureFullPath)) {
-        fs.unlinkSync(pictureFullPath);
-      }
+      fs.unlinkSync(pictureFile.path); // Delete the temporary file if an error occurs
     }
 
     // Re-throw the error for handling
