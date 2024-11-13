@@ -3,7 +3,7 @@ const path = require('path');
 const multer = require('multer');
 
 // Direktori penyimpanan umum di /app/storage
-const storageDir = path.join(__dirname, '../storage');
+const storageDir = path.join(__dirname, '../app/storage');
 
 // Membuat direktori jika belum ada
 if (!fs.existsSync(storageDir)) {
