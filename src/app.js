@@ -60,7 +60,7 @@ app.use(router);
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'SELAMAT DATANG DI API IOM ITB',
+    message: 'SELAMAT DATANG DI API IOM',
   });
 });
 
