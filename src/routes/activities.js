@@ -11,7 +11,6 @@ const upload  = require('../middlewares/multer');
 const router = Router();
 
 router.get('', [], GetAllActivities);
-router.get('/test', [], GetAllActivities);
 router.get('/:id', [], GetActivityById);
 router.post('', upload.fields([{ name: 'imageActivity', maxCount: 1 }]), CreateNewActivity);
 router.put('/:id', upload.fields([{ name: 'imageActivity', maxCount: 1 }]), UpdateActivityById);
