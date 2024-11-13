@@ -5,3 +5,5 @@ public
 documents.env.sample
 src/public/images
 src/app/storage
+src/storage
+
