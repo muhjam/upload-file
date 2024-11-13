@@ -7,7 +7,7 @@ const path = require('path');
 const UpdateMembers = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
   let pictureFile = files && files['picture'] ? files['picture'][0] : null;
-  const pictureFileName = pictureFile ? `${basePath}/public/images/members/${pictureFile.filename}` : null;
+  const pictureFileName = pictureFile ? `${basePath}/storage/${pictureFile.filename}` : null;
 
   try {
     const member = await Members.findByPk(id, { transaction });
@@ -33,7 +33,7 @@ const UpdateMembers = async (id, body, files, basePath) => {
       const previousPicturePath = member.picture; 
       console.log('Previous Picture Path:', previousPicturePath); // Log previous picture path
       const previousPictureFileName = path.basename(previousPicturePath);
-      const previousPictureFilePath = path.join(__dirname, '../../public/images/members', previousPictureFileName);
+      const previousPictureFilePath = path.join(__dirname, '../../storage', previousPictureFileName);
       
       // Check if the file exists
       if (fs.existsSync(previousPictureFilePath)) {
@@ -68,7 +68,7 @@ const UpdateMembers = async (id, body, files, basePath) => {
     await transaction.rollback();
 
     if (files && pictureFile) {
-      const pictureFilePath = path.join(__dirname, '../../public/images/members', pictureFile.filename);
+      const pictureFilePath = path.join(__dirname, '../../storage', pictureFile.filename);
       if (fs.existsSync(pictureFilePath)) {
         fs.unlinkSync(pictureFilePath);
       }

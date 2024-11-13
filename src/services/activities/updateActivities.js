@@ -7,7 +7,7 @@ const path = require('path');
 const UpdateActivities = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
   let imageFile = files && files['imageActivity'] ? files['imageActivity'][0] : null;
-  const imageFileName = imageFile ? `${basePath}/public/images/activities/${imageFile.filename}` : null;
+  const imageFileName = imageFile ? `${basePath}/storage/${imageFile.filename}` : null;
 
   try {
     const activity = await Activities.findByPk(id, { transaction });
@@ -33,7 +33,7 @@ const UpdateActivities = async (id, body, files, basePath) => {
       const previousImagePath = activity.image; 
       console.log('Previous Image Path:', previousImagePath); // Log previous image path
       const previousImageFileName = path.basename(previousImagePath);
-      const previousImageFilePath = path.join(__dirname, '../../public/images/activities', previousImageFileName);
+      const previousImageFilePath = path.join(__dirname, '../../storage', previousImageFileName);
       
       // Check if the file exists
       if (fs.existsSync(previousImageFilePath)) {
@@ -67,7 +67,7 @@ const UpdateActivities = async (id, body, files, basePath) => {
     await transaction.rollback();
 
     if (files && imageFile) {
-      const imageFilePath = path.join(__dirname, '../../public/images/activities', imageFile.filename);
+      const imageFilePath = path.join(__dirname, '../../storage', imageFile.filename);
       if (fs.existsSync(imageFilePath)) {
         fs.unlinkSync(imageFilePath);
       }

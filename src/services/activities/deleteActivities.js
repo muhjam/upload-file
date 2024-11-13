@@ -1,13 +1,15 @@
 const { Activities, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
+const fs = require('fs');
+const path = require('path');
 
 const DeleteActivities = async (id) => {
   const transaction = await sequelize.transaction(); // Start a transaction
   try {
-    // Cari activity berdasarkan id
+    // Find activity by id
     const activity = await Activities.findByPk(id, { transaction });
 
-    // Jika activity tidak ditemukan, lemparkan error
+    // If activity not found, throw an error
     if (!activity) {
       throw {
         status: StatusCodes.NOT_FOUND,
@@ -15,7 +17,20 @@ const DeleteActivities = async (id) => {
       };
     }
 
-    // Hapus activity
+    // If an image file URL exists, extract the file name and delete it
+    if (activity.image) {
+      const imageFileName = activity.image.split('/').pop(); // Get the file name from the URL
+
+      // Define the path to the storage directory and the file
+      const imagePath = path.join(__dirname, '../../storage', imageFileName);
+
+      // Delete the file if it exists
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    // Delete the activity
     await activity.destroy({ transaction });
 
     // Commit the transaction

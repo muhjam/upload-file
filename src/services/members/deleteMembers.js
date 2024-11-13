@@ -19,9 +19,8 @@ const DeleteMembers = async (id) => {
 
     // Get the previous picture path
     const previousPicturePath = member.picture;
-    console.log('Previous Picture Path:', previousPicturePath); // Log previous picture path
     const previousPictureFileName = path.basename(previousPicturePath);
-    const previousPictureFilePath = path.join(__dirname, '../../public/images/members', previousPictureFileName);
+    const previousPictureFilePath = path.join(__dirname, '../../storage', previousPictureFileName);
 
     // Check if the file exists and delete it
     if (fs.existsSync(previousPictureFilePath)) {
