@@ -4,9 +4,10 @@ const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
 const path = require('path');
 
-const UpdateActivities = async (id, body, files) => {
+const UpdateActivities = async (id, body, files, basePath) => {
   const transaction = await sequelize.transaction();
   let imageFile = files && files['imageActivity'] ? files['imageActivity'][0] : null;
+  const imageFileName = imageFile ? `${basePath}/public/images/activities/${imageFile.filename}` : null;
 
   try {
     const activity = await Activities.findByPk(id, { transaction });
@@ -20,42 +21,56 @@ const UpdateActivities = async (id, body, files) => {
 
     const { title, date } = body;
 
-    if (!title && !date && !imageFile && !body.description && !body.url) {
+    if (!title && !date && !imageFileName && !body.description && !body.url) {
       throw new BaseError({
         status: StatusCodes.BAD_REQUEST,
         message: 'At least one of title, date, or image must be provided for update',
       });
     }
 
-    // Read the new image as binary data if it's provided
-    const imageData = imageFile ? fs.readFileSync(imageFile.path) : null;
+    // Delete the previous image if a new one is uploaded
+    if (imageFile && activity.image) {
+      const previousImagePath = activity.image; 
+      console.log('Previous Image Path:', previousImagePath); // Log previous image path
+      const previousImageFileName = path.basename(previousImagePath);
+      const previousImageFilePath = path.join(__dirname, '../../public/images/activities', previousImageFileName);
+      
+      // Check if the file exists
+      if (fs.existsSync(previousImageFilePath)) {
+        console.log('Deleting file:', previousImageFilePath); // Log file path being deleted
+        fs.unlinkSync(previousImageFilePath);
+        console.log('deleted');
+      } else {
+        console.log('File does not exist:', previousImageFilePath); // Log if file does not exist
+      }
+    }
 
-    // Update the activity with new data
-    const updatedActivity = await activity.update(
+    // Update activity with new data
+    const updatedActivity = await Activities.update(
       {
         title: title || activity.title,
-        image: imageData || activity.image, // Store binary data or keep existing data
+        image: imageFileName || activity.image,
         description: body.description || activity.description,
         date: date !== undefined ? date : activity.date,
         url: body.url !== undefined ? body.url : activity.url,
       },
-      { transaction }
+      {
+        where: { id },
+        transaction,
+      }
     );
 
     await transaction.commit();
-
-    // Clean up temporary uploaded file if needed
-    if (imageFile) {
-      fs.unlinkSync(imageFile.path);
-    }
 
     return updatedActivity;
   } catch (error) {
     await transaction.rollback();
 
-    // Clean up temporary uploaded file in case of an error
     if (files && imageFile) {
-      fs.unlinkSync(imageFile.path);
+      const imageFilePath = path.join(__dirname, '../../public/images/activities', imageFile.filename);
+      if (fs.existsSync(imageFilePath)) {
+        fs.unlinkSync(imageFilePath);
+      }
     }
 
     throw new BaseError({

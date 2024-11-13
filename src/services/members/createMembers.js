@@ -15,6 +15,7 @@ const generateCodeFromChildNim = (childNim) => {
 const CreateMembers = async (body, files) => {
   const transaction = await sequelize.transaction();
   const pictureFile = files && files['picture'] ? files['picture'][0] : null;
+  const pdfFile = files && files['file'] ? files['file'][0] : null; // Add handling for the PDF file
 
   try {
     // Validate required fields
@@ -32,6 +33,9 @@ const CreateMembers = async (body, files) => {
 
     // Read the image file as binary data if it exists
     const pictureData = pictureFile ? fs.readFileSync(pictureFile.path) : null;
+    
+    // Read the PDF file as binary data if it exists
+    const pdfData = pdfFile ? fs.readFileSync(pdfFile.path) : null;
 
     // Create the member record within a transaction
     const newMember = await Members.create(
@@ -41,6 +45,7 @@ const CreateMembers = async (body, files) => {
         childNim,
         noWhatsapp,
         picture: pictureData, // Store the binary image data in the database
+        file: pdfData, // Store the binary PDF data in the database
         options: {
           staff: staff,
           foster: foster,
@@ -58,8 +63,9 @@ const CreateMembers = async (body, files) => {
     await transaction.rollback();
 
     // Clean up uploaded files if any errors occur
-    if (files && pictureFile) {
-      fs.unlinkSync(pictureFile.path); // Delete the temporary file if an error occurs
+    if (files) {
+      if (pictureFile) fs.unlinkSync(pictureFile.path); // Delete the temporary picture file if an error occurs
+      if (pdfFile) fs.unlinkSync(pdfFile.path); // Delete the temporary PDF file if an error occurs
     }
 
     // Re-throw the error for handling

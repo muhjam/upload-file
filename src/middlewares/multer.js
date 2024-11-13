@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
             cb(null, userImageDir);
         }else if (file.fieldname === 'picture') {
             cb(null, memberImageDir);
-        }else if (file.fieldname === 'image') {
+        }else if (file.fieldname === 'image' || file.fieldname === 'file') {
             cb(null, merchandiseDir);
         }else if (file.fieldname === 'imageActivity') {
             cb(null, activitiesDir);
@@ -49,7 +49,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.fieldname === 'supportingDocuments') {
+    if (file.fieldname === 'supportingDocuments' || file.fieldname === 'file') {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
         } else {

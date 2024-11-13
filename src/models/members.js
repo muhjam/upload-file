@@ -45,7 +45,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     picture: {
-      type: DataTypes.STRING,
+      type: DataTypes.BLOB('medium'),
+      allowNull: true
+    },
+    file: {
+      type: DataTypes.BLOB('medium'),
       allowNull: true
     },
     options: {

@@ -1,24 +1,24 @@
 {
   "development": {
     "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
+    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
+    "database": "iom-itb",
     "host": "195.110.58.17",
     "port": 3306,
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
+    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
+    "database": "iom-itb",
     "host": "195.110.58.17",
     "port": 3306,
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "6AphlGZSXopbjoghL8Nm9a5D3F23kZuSOj9yG5mRVxMAN9AYPaPxGm2jD6hoPEOU",
-    "database": "iom",
+    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
+    "database": "iom-itb",
     "host": "195.110.58.17",
     "port": 3306,
     "dialect": "mysql"
