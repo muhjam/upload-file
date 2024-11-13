@@ -8,7 +8,7 @@ const CreateActivities = async (body, files, path) => {
   const transaction = await sequelize.transaction();
   // Handle image file
   const imageFile = files && files['imageActivity'] ? files['imageActivity'][0] : null;
-  const imageFileName = imageFile ? `${path}/public/images/activities/${imageFile?.filename}` : null;
+  const imageFileName = imageFile ? `${path}/app/storage/${imageFile?.filename}` : null;
   try {
     // Validate required fields
     const { title, date } = body;
@@ -42,7 +42,7 @@ const CreateActivities = async (body, files, path) => {
 
     // Clean up uploaded files if any errors occur
     if (files && imageFile) {
-      const imageFilePath = path.join(__dirname, '../../public/images/activities', imageFile.filename);
+      const imageFilePath = path.join(__dirname, '../../app/storage', imageFile.filename);
       if (fs.existsSync(imageFilePath)) {
         fs.unlinkSync(imageFilePath);
       }

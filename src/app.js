@@ -50,7 +50,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 const path = require('path');
-app.use('/public', express.static(path.join(__dirname, 'public')), (req, res, next) => {
+app.use('/', express.static(path.join(__dirname, 'app')), (req, res, next) => {
   console.log(`Serving static file: ${req.path}`);
   next();
 });

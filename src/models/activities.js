@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     image: {
-      type: DataTypes.BLOB('medium'),
+      type: DataTypes.STRING,
       allowNull: true
     },
     title: {

@@ -2,45 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
-// Direktori untuk menyimpan file
-const userImageDir = path.join(__dirname, '../public/images/users');
-const memberImageDir = path.join(__dirname, '../public/images/members');
-const merchandiseDir = path.join(__dirname, '../public/images/merchandises');
-const activitiesDir = path.join(__dirname, '../public/images/activities');
-const transactionDir = path.join(__dirname, '../public/images/transactions');
-const proofDir = path.join(__dirname, '../public/images/proofs');
-const bannerDir = path.join(__dirname, '../public/images/banners');
-const supportingDocumentDir = path.join(__dirname, '../../documents/competitions');
+// Direktori penyimpanan umum di /app/storage
+const storageDir = path.join(__dirname, '../app/storage');
 
 // Membuat direktori jika belum ada
-[userImageDir, memberImageDir, proofDir, supportingDocumentDir, bannerDir, merchandiseDir, transactionDir, activitiesDir].forEach(dir => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-});
+if (!fs.existsSync(storageDir)) {
+    fs.mkdirSync(storageDir, { recursive: true });
+}
 
 // Konfigurasi penyimpanan multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (file.fieldname === 'photo') {
-            cb(null, userImageDir);
-        }else if (file.fieldname === 'picture') {
-            cb(null, memberImageDir);
-        }else if (file.fieldname === 'image' || file.fieldname === 'file') {
-            cb(null, merchandiseDir);
-        }else if (file.fieldname === 'imageActivity') {
-            cb(null, activitiesDir);
-        }else if (file.fieldname === 'payment') {
-            cb(null, transactionDir);
-        }else if (file.fieldname === 'proof') {
-            cb(null, proofDir);
-        } else if (file.fieldname === 'supportingDocuments') {
-            cb(null, supportingDocumentDir);
-        } else if (file.fieldname === 'banner') {
-            cb(null, bannerDir);
-        } else {
-            cb(new Error('Invalid field name'), false);
-        }
+        cb(null, storageDir); // Semua file disimpan di /app/storage
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
