@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false
       },
       type: {
-        type: Sequelize.ENUM('Financial', 'Academic', 'Personal'), // Contoh jenis bantuan
+        type: Sequelize.STRING, // Contoh jenis bantuan
         allowNull: false
       },
       reason: {

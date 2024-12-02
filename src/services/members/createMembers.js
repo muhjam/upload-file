@@ -12,7 +12,7 @@ const generateCodeFromChildNim = (childNim) => {
     .join(''); // Join all pairs back into a single string
 };
 
-const CreateMembers = async (body, files) => {
+const CreateMembers = async (body, files, baseUrl) => {
   const transaction = await sequelize.transaction();
   const pictureFile = files && files['picture'] ? files['picture'][0] : null;
   const pdfFile = files && files['file'] ? files['file'][0] : null; // Add handling for the PDF file
@@ -31,11 +31,29 @@ const CreateMembers = async (body, files) => {
     // Generate code by reversing every two characters in childNim
     const code = generateCodeFromChildNim(childNim);
 
-    // Read the image file as binary data if it exists
-    const pictureData = pictureFile ? fs.readFileSync(pictureFile.path) : null;
-    
-    // Read the PDF file as binary data if it exists
-    const pdfData = pdfFile ? fs.readFileSync(pdfFile.path) : null;
+    // Ensure the upload directory exists
+    const uploadDir = path.resolve(__dirname, '../../uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Move picture file to `uploads` directory
+    let pictureFilePath = null;
+    if (pictureFile) {
+      pictureFilePath = path.join(uploadDir, pictureFile.filename);
+      fs.renameSync(pictureFile.path, pictureFilePath);
+    }
+
+    // Move PDF file to `uploads` directory
+    let pdfFilePath = null;
+    if (pdfFile) {
+      pdfFilePath = path.join(uploadDir, pdfFile.filename);
+      fs.renameSync(pdfFile.path, pdfFilePath);
+    }
+
+    // Construct URLs for the files
+    const pictureFileUrl = pictureFilePath ? `${baseUrl}/uploads/${pictureFile.filename}` : null;
+    const pdfFileUrl = pdfFilePath ? `${baseUrl}/uploads/${pdfFile.filename}` : null;
 
     // Create the member record within a transaction
     const newMember = await Members.create(
@@ -44,8 +62,8 @@ const CreateMembers = async (body, files) => {
         parentName,
         childNim,
         noWhatsapp,
-        picture: pictureData, // Store the binary image data in the database
-        file: pdfData, // Store the binary PDF data in the database
+        picture: pictureFileUrl, // Store the file URL
+        file: pdfFileUrl, // Store the file URL
         options: {
           staff: staff,
           foster: foster,
@@ -63,9 +81,11 @@ const CreateMembers = async (body, files) => {
     await transaction.rollback();
 
     // Clean up uploaded files if any errors occur
-    if (files) {
-      if (pictureFile) fs.unlinkSync(pictureFile.path); // Delete the temporary picture file if an error occurs
-      if (pdfFile) fs.unlinkSync(pdfFile.path); // Delete the temporary PDF file if an error occurs
+    if (pictureFile && fs.existsSync(pictureFile.path)) {
+      fs.unlinkSync(pictureFile.path);
+    }
+    if (pdfFile && fs.existsSync(pdfFile.path)) {
+      fs.unlinkSync(pdfFile.path);
     }
 
     // Re-throw the error for handling
