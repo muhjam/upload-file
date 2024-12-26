@@ -1,16 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-const AuthRouter = require('./auth');
-const UserRouter = require('./users');
-const MemberRouter = require('./members');
-const MerchandiseRouter = require('./merchandises');
-const ActivityRouter = require('./activities');
-const DonationsRouter = require('./donations');
-const HelpSubmissiosRouter = require('./helpSubmissions');
-const TransactionRouter = require('./transactions');
 const fileRouter = require('./file');
-const CompetitionRouter = require('./competition');
+const imageRouter = require('./image');
+const pdfRouter = require('./pdf');
 
 router.get('/', (req, res) => {
   res.json({
@@ -18,15 +11,8 @@ router.get('/', (req, res) => {
   });
 });
 
-router.use('/auth', AuthRouter);
-router.use('/users', UserRouter);
-router.use('/members', MemberRouter);
-router.use('/merchandises', MerchandiseRouter);
-router.use('/activities', ActivityRouter);
-router.use('/donations', DonationsRouter);
-router.use('/help-submissions', HelpSubmissiosRouter);
-router.use('/transactions', TransactionRouter);
-router.use('/file', fileRouter);
-router.use('/competition', CompetitionRouter);
+router.use('/files', fileRouter);
+router.use('/images', imageRouter);
+router.use('/pdf', pdfRouter);
 
 module.exports = router;

@@ -7,10 +7,11 @@ const path = require('path');
 
 const uploadFile = async (req, res) => {
   try {
-    if (!req.file) {
+    if (!req.files) {
       throw new Error('No file uploaded');
     }
-    const result = await uploadService.upload(req.file);
+
+    const result = await uploadService.upload(req, req.files);
     res.status(StatusCodes.OK).json(new BaseResponse({
       status: StatusCodes.OK,
       message: 'Berhasil',
@@ -29,13 +30,13 @@ const uploadFile = async (req, res) => {
 
 const downloadFile = async (req, res) => {
   try {
-    const { fieldName, fileName } = req.query;
+    const { fileName } = req.query;
 
-    if (!fieldName || !fileName) {
+    if (!fileName) {
       throw new Error('Missing fieldName or fileName');
     }
 
-    const fileContent = await downloadService.download(fieldName, fileName);
+    const fileContent = await downloadService.download(fileName);
 
     res.setHeader('Content-Type', 'application/octet-stream');
     res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
@@ -53,14 +54,13 @@ const downloadFile = async (req, res) => {
 
 const previewFile = async (req, res) => {
   try {
-    const { fieldName, fileName } = req.query;
+    const { fileName } = req.query;
 
-    if (!fieldName || !fileName) {
-      throw new Error('Missing fieldName or fileName');
+    if (!fileName) {
+      throw new Error('Missing fileName');
     }
-    console.log(`Preview requested for fieldName: ${fieldName}, fileName: ${fileName}`);
 
-    const { fileContent, filePath } = await previewService.preview(fieldName, fileName);
+    const { fileContent, filePath } = await previewService.preview(fileName);
     const ext = path.extname(filePath).toLowerCase();
     let contentType = 'application/octet-stream';
 

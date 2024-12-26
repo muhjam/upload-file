@@ -22,13 +22,13 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.fieldname === 'supportingDocuments' || file.fieldname === 'file') {
+    if (file.fieldname === 'pdf') {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
         } else {
             cb(new Error('File must be a PDF!'), false);
         }
-    } else if (file.fieldname === 'proof') {
+    } else if (file.fieldname === 'file') {
         if (file.mimetype === 'image/jpeg' || 
             file.mimetype === 'image/png' || 
             file.mimetype === 'image/jpg' ||

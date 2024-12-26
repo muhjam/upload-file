@@ -1,28 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-const directories = {
-  'image': path.join(__dirname, '../public/images/users'),
-  'proof': path.join(__dirname, '../public/images/proofs'),
-  'supportingDocuments': path.join(__dirname, '../../../documents/competitions'),
-  'banner': path.join(__dirname, '../public/images/banners'),
-};
-
-const download = async (fieldName, fileName) => {
+const download = async (fileName) => {
   try {
-    const directory = directories[fieldName];
-    if (!directory) {
-      throw new Error('Invalid fieldName');
-    }
-
-    const filePath = path.join(directory, fileName);
+    // Gunakan path absolut untuk memastikan direktori yang benar
+    const uploadDir = path.join(__dirname, '../../uploads');
+    const filePath = path.join(uploadDir, fileName);
 
     if (!fs.existsSync(filePath)) {
       throw new Error('File not found');
     }
 
-    const fileContent = fs.readFileSync(filePath);
-    return fileContent;
+    // Kembalikan path file agar bisa digunakan untuk stream
+    return filePath;
   } catch (error) {
     throw error;
   }

@@ -1,27 +1,24 @@
-const fs = require('fs');
-const path = require('path');
+const upload = async (req, files) => {
+    let file = null;
 
-const upload = async (file) => {
-    try {
-        let uploadDir;
-        if (file.fieldname === 'image') {
-            uploadDir = path.join(__dirname, '../public/images/users');
-        } else if (file.fieldname === 'proof') {
-            uploadDir = path.join(__dirname, '../public/images/proofs');
-        } else {
-            throw new Error('Invalid fieldname');
-        }
-
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        const filePath = path.join(uploadDir, file.filename);
-        fs.writeFileSync(filePath, file.buffer);
-        return filePath;
-    } catch (error) {
-        throw error;
+    if (files && files['file']) {
+    file = files['file'][0];
+    } else if (files && files['image']) {
+    file = files['image'][0];
+    } else if (files && files['pdf']) {
+    file = files['pdf'][0];
     }
+
+    if (!file) {
+        throw new Error('No file provided');
+    }
+
+    // Ambil domain URL dari request
+    const protocol = req.protocol; // http atau https
+    const host = req.get('host');  // domain + port (jika ada)
+    const fileUrl = `${protocol}://${host}/uploads/${file.filename}`;
+
+    return fileUrl;
 };
 
 module.exports = { upload };
